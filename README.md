@@ -4,12 +4,14 @@
 
 > **主定理 / Main theorem**
 >
-> 在十进制下，对于 8 位及以上位数的任意整数，我们总能在其中插入加减乘除、
-> 小括号与一个等号，使之成为正确的等式。
+> 在十进制下，任意**大于 9989858** 的整数，都可以在其中插入加减乘除、
+> 小括号与一个等号，使之成为正确的等式。该下界是精确的：9989858 本身是
+> 反例（最大的强不可平衡数）。
 >
-> Every decimal integer with 8 or more digits can be turned into a true
+> Every decimal integer **greater than 9989858** can be turned into a true
 > equation by inserting `+ - * /`, parentheses and one `=` into its digit
-> string.
+> string. The bound is sharp: 9989858 itself is the largest counterexample
+> (a strongly non-balanceable string).
 
 例如 / for example:
 
@@ -93,8 +95,9 @@ digits is balanceable?
   `9989858`。
 - 其中 **18198** 个即使允许任意多个等号也无法平衡（强不可平衡），最大仍为
   `9989858`；**1317** 个可通过多个等号平衡（弱不可平衡）。
-- 结合 `N' = 8` 与 `0=0` 构造可得 `N <= 16`，而候选集穷举把结论收紧为
-  **N = 8**：即主定理。
+- 结合 `N' = 8` 与 `0=0` 构造可得 `N <= 16`；候选集穷举进一步表明 8–15 位
+  候选全部可解、7 位反例不超过 `9989858`。结论收紧为：**任意大于 `9989858`
+  的整数均可平衡化**，而 `9989858` 本身是强不可平衡反例，下界精确。
 
 **English**
 
@@ -110,7 +113,10 @@ digits is balanceable?
   signs (strongly non-balanceable, largest `9989858`), while **1317** become
   balanceable with multiple `=` signs (weakly non-balanceable).
 - Combining `N' = 8` with the `0=0` construction gives `N <= 16`; the
-  candidate sweep tightens it to **N = 8**, i.e. the main theorem.
+  candidate sweep further shows that every 8–15 digit candidate is solvable
+  and that all 7-digit counterexamples are at most `9989858`. The conclusion
+  tightens to: **every integer greater than `9989858` is balanceable**, while
+  `9989858` itself is strongly non-balanceable — the bound is sharp.
 
 | 数据 / data | 数量 / count | 最大元素 / maximum |
 | --- | ---: | --- |
@@ -119,6 +125,68 @@ digits is balanceable?
 | 无单等号解 / no single-`=` solution | 19515 | `9989858` |
 | 强不可平衡 / strongly non-balanceable | 18198 | `9989858` |
 | 弱不可平衡 / weakly non-balanceable | 1317 | `999894` |
+
+### 2.1 候选集 C 与 "0=0" 模式 / The candidate set C and "0=0" patterns
+
+**中文**
+
+若数字串 `w` 存在切分 `w = L R` 使 `L` 与 `R` 都可归零，则 `w` 立即平衡化为
+`0=0`。称这样的 `w` 含有 **"0=0" 模式**（凡有该模式的串必可平衡化）。
+
+**候选集 C** 定义为不含 "0=0" 模式的全部数字串，它等价于如下构造形式：
+
+```text
+C = { s1_c_s2 | s1、s2 为不可归零串，c 为单个数字 }
+```
+
+（`s1` 或 `s2` 允许为空；`c` 位于开头时按整数无先导零处理，故首位 `c` 只取
+1–9。）
+
+- **C 中的串没有 "0=0"**：`s1_c_s2` 的任一子串若不跨越 `c`，则完全落在 `s1`
+  或 `s2` 内从而不可归零；跨越 `c` 的子串至多只有一个（`c` 只出现一次）。
+  而 "0=0" 需要两个不相交的零化子串，故不可能。
+- **不含 "0=0" 的串都在 C 中**：取 `s1 = w[:i]` 为最长不可归零前缀，则
+  `w[:i+1]` 可归零；若 `w[i+1:]` 也可归零便产生 "0=0"，矛盾，故
+  `s2 = w[i+1:]` 不可归零。
+- **证明意义**：不可平衡集 `¬E` 是 `C` 的子集——不在 `C` 中的串都含 "0=0"
+  模式，因而必然可平衡化。因此只需在 `C` 中寻找反例，而 `C` 远小于全体数字
+  串：按原文计数，`C_8 = 14456421`、`C_9 = 28813930`、`C_10 = 24533340`、
+  `C_11 = 8388910`、`C_12 = 920140`、`C_13 = 45660`、`C_14 = 1080`，15 位
+  候选退化为 `8985898_c_8985898`（其子串 `5898_c_8985` 可归零，故必然可
+  平衡）；2–15 位合计约 8200 万，这正是脚本 `02` 检验的候选集。
+
+**English**
+
+If a digit string `w` has a cut `w = L R` with both `L` and `R` zeroable, then
+`w` immediately balances as `0=0`. Such a `w` is said to contain a **"0=0"
+pattern** (any string with this pattern is balanceable). The **candidate set
+C** is the set of digit strings *without* a "0=0" pattern; it has the
+equivalent normal form
+
+```text
+C = { s1_c_s2 | s1, s2 non-zeroable, c a single digit }
+```
+
+(`s1` or `s2` may be empty; when `c` is the first character there is no leading
+zero digit, so only `c` in 1–9 is used.)
+
+- **Strings in C have no "0=0"**: any substring of `s1_c_s2` not crossing `c`
+  lies inside `s1` or `s2` and is non-zeroable; at most one substring crosses
+  `c` (which occurs once). A "0=0" pattern needs two disjoint zeroable parts,
+  so it cannot exist.
+- **Every string without "0=0" lies in C**: take `s1 = w[:i]`, the longest
+  non-zeroable prefix; then `w[:i+1]` is zeroable, and `w[i+1:]` cannot be
+  zeroable (otherwise a "0=0" cut would exist), so `s2 = w[i+1:]` is
+  non-zeroable.
+- **Proof role**: the non-balanceable set `¬E` is a subset of `C`, because
+  every string outside `C` contains a "0=0" pattern and is therefore
+  balanceable. Counterexamples can only live in `C`, which is far smaller than
+  all digit strings: the original counts are `C_8 = 14456421`,
+  `C_9 = 28813930`, `C_10 = 24533340`, `C_11 = 8388910`, `C_12 = 920140`,
+  `C_13 = 45660`, `C_14 = 1080`, and the 15-digit candidates reduce to
+  `8985898_c_8985898` (it contains the zeroable substring `5898_c_8985`),
+  about 82 million candidates for 2–15 digits in total — exactly the candidate
+  set tested by script `02`.
 
 ---
 
@@ -208,6 +276,50 @@ B. 小规模全量复算（长度 <= 5，分类 <= 4）/ small-scale exhaustive 
 | `03_classify_nonbalanceable.py` | 强/弱不可平衡分类 / strong-weak classification | `non_balanceable.json` | `classification.json`, `strong_*.json`, `weak_*.json` |
 | `04_balance_number.py` | 手动输入平衡化 / interactive balancing | 命令行/REPL / CLI or REPL | 屏幕输出 / stdout |
 | `verify_results.py` | 数据一致性 + 全量/小规模复算 / verification | `data/` | 报告 / report |
+
+各脚本在定理证明链条中的作用 / role of each script in the proof:
+
+**中文**
+
+- `01_sieve_zeroable.py`：由"可归零向上传递"引理（可归零串的任意超串可归零），
+  只需逐个检验素可归零串即可筛掉全部含可归零子串的数字串；输出不可归零集并
+  给出 **N' = 8**（最大不可归零数 `8985898` 只有 7 位），先把问题的位数上界
+  压到 `N <= 2N' = 16`。
+- `02_sieve_nonbalanceable.py`：利用候选集 `C = {s1_c_s2}`（2.1 节：`C` 恰好
+  是不含 "0=0" 模式的串，而不可平衡集 `¬E ⊆ C`），把搜索空间从全体数字串
+  缩小到约 8200 万；在其中检验二分割可平衡性，证明 8–15 位候选无一反例、
+  7 位反例最大为 `9989858`，从而得到主定理及其精确下界。
+- `03_classify_nonbalanceable.py`：对放宽为"任意多个等号"后的候选集幸存者再
+  分类，证明包括 `9989858` 在内的 18198 个串为强不可平衡、其余 1317 个为弱
+  不可平衡，即"多等号放宽"不改变下界。
+- `04_balance_number.py`：定理的构造性体现——对任意输入现场构造并独立求值
+  验证见证等式；对任意大于 `9989858` 的输入必然成功。
+- `verify_results.py`：把上述结论变为可复核的检查（数据一致性、长度 ≤ 5 的
+  全量独立复算、`--deep` 全量逐条复核）。
+
+**English**
+
+- `01_sieve_zeroable.py`: by the upward-closure lemma (superstrings of a zeroable
+  string are zeroable), testing prime zeroable strings suffices to remove every
+  string containing a zeroable substring. Its output yields **N' = 8** (the
+  largest non-zeroable string `8985898` has 7 digits), which first bounds the
+  problem by `N <= 2N' = 16`.
+- `02_sieve_nonbalanceable.py`: uses the candidate set `C = {s1_c_s2}` (section
+  2.1: `C` is exactly the set of strings without a "0=0" pattern, and
+  `¬E ⊆ C`) to shrink the search space to about 82 million candidates. Testing
+  2-cut balanceability there proves that no 8–15 digit candidate is a
+  counterexample and that the largest 7-digit one is `9989858` — the main
+  theorem with a sharp bound.
+- `03_classify_nonbalanceable.py`: reclassifies the survivors after relaxing to
+  arbitrarily many `=` signs, proving that 18198 strings (including `9989858`)
+  are strongly non-balanceable while the other 1317 are weakly non-balanceable:
+  the multi-`=` relaxation does not change the bound.
+- `04_balance_number.py`: the constructive side of the theorem — it builds and
+  independently evaluates a witness equation for any input, and always succeeds
+  for inputs greater than `9989858`.
+- `verify_results.py`: turns all of the above into checkable tests (data
+  consistency, exhaustive independent recomputation for length ≤ 5, and a
+  full entry-by-entry re-check with `--deep`).
 
 常用参数 / common options:
 
@@ -330,8 +442,8 @@ SS-Theorem/
 **中文**
 
 - `04_balance_number.py` 对很长的数字串（如 20 位以上）可能搜索较慢；可先用
-  `--table` 或限制 `--max-segments`。8 位及以上一定存在解，但本工具不保证
-  在限定时间内找到。
+  `--table` 或限制 `--max-segments`。大于 `9989858` 的数一定存在解，但本工具
+  不保证在限定时间内找到。
 - 默认规则与严格规则的强/弱分类不同（见第 3 节）。
 - `02` 的浮点预筛使用相对容差 `1e-12`，所有命中都会用精确有理数复核，
   最终结果精确。
@@ -341,8 +453,8 @@ SS-Theorem/
 **English**
 
 - `04_balance_number.py` may be slow for very long strings (20+ digits); use
-  `--table` or a `--max-segments` limit. A solution always exists for 8+
-  digits but is not guaranteed to be found within a time budget.
+  `--table` or a `--max-segments` limit. A solution always exists above
+  `9989858`, but is not guaranteed to be found within a time budget.
 - The weak/strong split differs between the default and strict rules (section 3).
 - The float prefilter in `02` uses relative tolerance `1e-12`; every hit is
   confirmed with exact rationals, so final results are exact.
