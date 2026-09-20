@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-label="114514 balances to 1 + 1 / 4 = 5 / (1 * 4)">
+  <rect width="1200" height="560" fill="#000000"/>
+  <g font-family="Cambria, Georgia, 'Times New Roman', serif">
+    <text x="600" y="177" text-anchor="middle" font-size="118"><tspan fill="#22d3ee">114</tspan><tspan fill="#60a5fa" dx="10">514</tspan></text>
+    <line x1="600" y1="240" x2="600" y2="318" stroke="#3b82f6" stroke-width="13" stroke-linecap="round"/>
+    <polygon points="584,312 616,312 600,352" fill="#3b82f6"/>
+    <text x="600" y="467" text-anchor="middle" font-size="76"><tspan fill="#22d3ee">1</tspan><tspan fill="#3b82f6">&#160;+&#160;</tspan><tspan fill="#22d3ee">1</tspan><tspan fill="#3b82f6">&#160;/&#160;</tspan><tspan fill="#22d3ee">4</tspan><tspan fill="#7dd3fc">&#160;=&#160;</tspan><tspan fill="#60a5fa">5</tspan><tspan fill="#3b82f6">&#160;/&#160;</tspan><tspan fill="#3b82f6">(</tspan><tspan fill="#60a5fa">1</tspan><tspan fill="#3b82f6">&#160;*&#160;</tspan><tspan fill="#60a5fa">4</tspan><tspan fill="#3b82f6">)</tspan></text>
+  </g>
+</svg>
