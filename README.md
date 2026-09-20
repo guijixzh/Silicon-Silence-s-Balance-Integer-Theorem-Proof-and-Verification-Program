@@ -5,26 +5,30 @@
 > **主定理 / Main theorem**
 >
 > 在十进制下，任意**大于 9989858** 的整数，都可以在其中插入加减乘除、
-> 小括号与一个等号，使之成为正确的等式。该下界是精确的：9989858 本身是
-> 反例（最大的强不可平衡数）。
+> 小括号与一个等号，使之成为正确的等式。
 >
 > Every decimal integer **greater than 9989858** can be turned into a true
 > equation by inserting `+ - * /`, parentheses and one `=` into its digit
-> string. The bound is sharp: 9989858 itself is the largest counterexample
-> (a strongly non-balanceable string).
+> string.
 
 例如 / for example:
 
-| 数字串 / digits | 等式 / equation |
-| --- | --- |
-| `1234` | `12=3 * 4` |
-| `1919810` | `19 - 1=9 + 8 + 1 + 0` |
-| `222` | `2=2=2`（弱平衡，两个等号 / weak, two `=`） |
-| `113` | 不存在 / none（不可平衡 / non-balanceable） |
 
-本仓库包含定理结论、全部筛选数据与可复现的验证代码。
-This repository ships the theorem statement, the full screening data and
-reproducible verification code.
+| 数字串 / digits | 等式 / equation                             |
+| --------------- | ------------------------------------------- |
+| `1234`          | `12=3 * 4`                                  |
+| `1919810`       | `19 - 1=9 + 8 + 1 + 0`                      |
+| `222`           | `2=2=2`（弱平衡，两个等号 / weak, two `=`） |
+| `113`           | 不存在 / none（不可平衡 / non-balanceable） |
+
+本仓库包含定理结论、全部筛选数据与完整验证代码。
+This repository ships the theorem statement, the full screening data and the
+complete verification code.
+
+相关链接 / Links:
+
+- 文章 / Article: <https://apc-scienceunion.github.io/2026/07/18/%E4%B8%BA%E4%BD%95%E6%89%80%E6%9C%898%E4%BD%8D%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%9A%84%E6%95%B0%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%8F%98%E4%B8%BA%E7%AD%89%E5%BC%8F%EF%BC%9F%E2%80%94%E2%80%94%E7%A1%85%E5%9F%BA-%E6%B2%89%E9%BB%98%E6%95%B4%E6%95%B0%E5%B9%B3%E8%A1%A1%E5%8C%96%E5%AE%9A%E7%90%86%E5%8F%8A%E5%85%B6%E8%AF%81%E6%98%8E%E7%AE%80%E6%98%8E%E4%BB%8B%E7%BB%8D/>
+- 视频介绍 / Video: <https://www.bilibili.com/video/BV18dth6VEf9>
 
 ---
 
@@ -36,7 +40,7 @@ reproducible verification code.
 4. [快速开始 / Quick start](#4-快速开始--quick-start)
 5. [脚本说明 / Scripts](#5-脚本说明--scripts)
 6. [数据文件 / Data files](#6-数据文件--data-files)
-7. [验证与复现 / Verification and reproduction](#7-验证与复现--verification-and-reproduction)
+7. [验证 / Verification](#7-验证--verification)
 8. [目录结构 / Layout](#8-目录结构--layout)
 9. [已知限制 / Known limitations](#9-已知限制--known-limitations)
 10. [引用与许可 / Citation and license](#10-引用与许可--citation-and-license)
@@ -60,7 +64,7 @@ reproducible verification code.
   - **弱平衡化**：需要三段及以上（多个等号）。
 - **不可归零数 / 不可平衡数 / 强、弱不可平衡数**：上述性质不成立的反例。
 
-问题：是否存在位数下界 `N`，使任何 `n >= N` 位的数字串总可平衡化？
+初始问题：我们是否总能插入加减乘除、小括号与等号，让数字成为正确的等式？
 
 **English**
 
@@ -78,8 +82,8 @@ operator is inserted):
 - **Non-zeroable / non-balanceable / strongly or weakly non-balanceable**:
   the corresponding counterexamples.
 
-Question: is there a length bound `N` such that every string with `n >= N`
-digits is balanceable?
+Initial question: can we always insert `+`, `-`, `*`, `/`, parentheses and
+equals signs into a digit string to make it a true equation?
 
 ---
 
@@ -118,13 +122,14 @@ digits is balanceable?
   tightens to: **every integer greater than `9989858` is balanceable**, while
   `9989858` itself is strongly non-balanceable — the bound is sharp.
 
-| 数据 / data | 数量 / count | 最大元素 / maximum |
-| --- | ---: | --- |
-| 素可归零串 / prime zeroable | 6534 | `9896989` |
-| 不可归零串 / non-zeroable | 2873 | `8985898` |
-| 无单等号解 / no single-`=` solution | 19515 | `9989858` |
-| 强不可平衡 / strongly non-balanceable | 18198 | `9989858` |
-| 弱不可平衡 / weakly non-balanceable | 1317 | `999894` |
+
+| 数据 / data                           | 数量 / count | 最大元素 / maximum |
+| ------------------------------------- | -----------: | ------------------ |
+| 素可归零串 / prime zeroable           |         6534 | `9896989`          |
+| 不可归零串 / non-zeroable             |         2873 | `8985898`          |
+| 无单等号解 / no single-`=` solution   |        19515 | `9989858`          |
+| 强不可平衡 / strongly non-balanceable |        18198 | `9989858`          |
+| 弱不可平衡 / weakly non-balanceable   |         1317 | `999894`           |
 
 ### 2.1 候选集 C 与 "0=0" 模式 / The candidate set C and "0=0" patterns
 
@@ -268,14 +273,15 @@ B. 小规模全量复算（长度 <= 5，分类 <= 4）/ small-scale exhaustive 
 
 ## 5. 脚本说明 / Scripts
 
-| 脚本 / script | 作用 / purpose | 输入 / input | 输出 / output |
-| --- | --- | --- | --- |
-| `sst_core.py` | 核心库：值集、可归零、平衡化搜索、表达式求值 / core library | — | — |
-| `01_sieve_zeroable.py` | 不可归零数筛选 / zeroability sieve | 无 / none | `prime_zeroable.json`, `non_zeroable.json` |
-| `02_sieve_nonbalanceable.py` | 不可平衡数筛选 / single-`=` sieve | `non_zeroable.json` | `non_balanceable.json` |
-| `03_classify_nonbalanceable.py` | 强/弱不可平衡分类 / strong-weak classification | `non_balanceable.json` | `classification.json`, `strong_*.json`, `weak_*.json` |
-| `04_balance_number.py` | 手动输入平衡化 / interactive balancing | 命令行/REPL / CLI or REPL | 屏幕输出 / stdout |
-| `verify_results.py` | 数据一致性 + 全量/小规模复算 / verification | `data/` | 报告 / report |
+
+| 脚本 / script                   | 作用 / purpose                                              | 输入 / input              | 输出 / output                                         |
+| ------------------------------- | ----------------------------------------------------------- | ------------------------- | ----------------------------------------------------- |
+| `sst_core.py`                   | 核心库：值集、可归零、平衡化搜索、表达式求值 / core library | —                        | —                                                    |
+| `01_sieve_zeroable.py`          | 不可归零数筛选 / zeroability sieve                          | 无 / none                 | `prime_zeroable.json`, `non_zeroable.json`            |
+| `02_sieve_nonbalanceable.py`    | 不可平衡数筛选 / single-`=` sieve                           | `non_zeroable.json`       | `non_balanceable.json`                                |
+| `03_classify_nonbalanceable.py` | 强/弱不可平衡分类 / strong-weak classification              | `non_balanceable.json`    | `classification.json`, `strong_*.json`, `weak_*.json` |
+| `04_balance_number.py`          | 手动输入平衡化 / interactive balancing                      | 命令行/REPL / CLI or REPL | 屏幕输出 / stdout                                     |
+| `verify_results.py`             | 数据一致性 + 全量/小规模复算 / verification                 | `data/`                   | 报告 / report                                         |
 
 各脚本在定理证明链条中的作用 / role of each script in the proof:
 
@@ -353,15 +359,16 @@ print their recorded witnesses.
 
 全部位于 `data/`，均为 UTF-8 JSON。
 
-| 文件 / file | 内容 / content | 条数 / count |
-| --- | --- | ---: |
-| `prime_zeroable.json` | 素可归零串列表（含 `0`）/ list, includes `0` | 6534 |
-| `non_zeroable.json` | 不可归零串列表 / list | 2873 |
-| `non_balanceable.json` | 无单等号解的串列表 / list | 19515 |
-| `strong_non_balanceable.json` | 强不可平衡串列表 / list | 18198 |
-| `weak_non_balanceable.json` | 弱不可平衡串列表 / list | 1317 |
-| `classification.json` | `{数字串: 见证等式或 null}` / `{number: witness or null}` | 19515 |
-| `manifest.json` | 计数、最大值、规则、SHA-256 校验和 / metadata and hashes | — |
+
+| 文件 / file                   | 内容 / content                                            | 条数 / count |
+| ----------------------------- | --------------------------------------------------------- | -----------: |
+| `prime_zeroable.json`         | 素可归零串列表（含`0`）/ list, includes `0`               |         6534 |
+| `non_zeroable.json`           | 不可归零串列表 / list                                     |         2873 |
+| `non_balanceable.json`        | 无单等号解的串列表 / list                                 |        19515 |
+| `strong_non_balanceable.json` | 强不可平衡串列表 / list                                   |        18198 |
+| `weak_non_balanceable.json`   | 弱不可平衡串列表 / list                                   |         1317 |
+| `classification.json`         | `{数字串: 见证等式或 null}` / `{number: witness or null}` |        19515 |
+| `manifest.json`               | 计数、最大值、规则、SHA-256 校验和 / metadata and hashes  |           — |
 
 列表文件均按 `(长度, 字典序)` 排序且无重复；`classification.json` 中
 `null` 表示强不可平衡，字符串值为形如 `2=2=2` 的见证等式（由程序独立求值
@@ -371,7 +378,7 @@ classification marks strongly non-balanceable strings.
 
 ---
 
-## 7. 验证与复现 / Verification and reproduction
+## 7. 验证 / Verification
 
 **中文**
 
@@ -382,21 +389,6 @@ classification marks strongly non-balanceable strings.
    可归零性与二分割/多分割可平衡性，与发布数据逐条比对。
 3. **全量复核**（`--deep`）：对 2873 不可归零串、19515 无单等号解串、
    18198 强不可平衡串逐条重算。
-
-本仓库的复现记录 / reproduction record:
-
-- `01_sieve_zeroable.py -n 7` 重新生成的 6534/2873 条数据与原始发布数据完全一致；
-- `02_sieve_nonbalanceable.py --max-length 5` 检验 185377 个候选，得到 16248 个
-  结果，恰好等于发布数据中长度 ≤ 5 的子集；
-- `03_classify_nonbalanceable.py` 一次运行（32 核 8.2 秒）得到的强/弱集合与
-  原始数据完全一致，1317 条见证等式全部通过独立求值验证；
-  原始数据中有 88 条见证等式存在格式化错误（求值不成立），本仓库已全部修正；
-- `verify_results.py --deep` 通过（约 51 秒）。
-
-完整重跑 `02` 需要检验约 8200 万个候选（2–15 位），建议使用
-`--checkpoint`/`--resume` 与多核；本仓库数据已按上述方式迁移并复核。
-A full `02` sweep tests about 82 million candidates (2–15 digits); use
-`--checkpoint`/`--resume` and multiple cores.
 
 **English**
 
@@ -409,12 +401,6 @@ A full `02` sweep tests about 82 million candidates (2–15 digits); use
    for every digit string and compares with the shipped data.
 3. **Full re-check** (`--deep`): rechecks every shipped entry (2873 / 19515 /
    18198).
-
-Reproduction record: `01 -n 7` reproduces the published 6534/2873 sets exactly;
-`02 --max-length 5` yields exactly the length-≤5 subset (16248 entries);
-`03` reproduces the identical strong/weak sets and all 1317 witnesses validate
-(88 malformed legacy witness texts were fixed); `verify_results.py --deep`
-passes in about 51 seconds.
 
 ---
 
@@ -470,10 +456,14 @@ SS-Theorem/
 - 定理与原始数据的提出与证明：硅基飙尘葆光，
   《为何所有 8 位及以上的数都可以变为等式？——硅基-沉默整数平衡化定理及其证明
   简明介绍》，2025-11-30（原始文档与证明未包含在本仓库中）。
+  - 文章 / Article: <https://apc-scienceunion.github.io/2026/07/18/%E4%B8%BA%E4%BD%95%E6%89%80%E6%9C%898%E4%BD%8D%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%9A%84%E6%95%B0%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%8F%98%E4%B8%BA%E7%AD%89%E5%BC%8F%EF%BC%9F%E2%80%94%E2%80%94%E7%A1%85%E5%9F%BA-%E6%B2%89%E9%BB%98%E6%95%B4%E6%95%B0%E5%B9%B3%E8%A1%A1%E5%8C%96%E5%AE%9A%E7%90%86%E5%8F%8A%E5%85%B6%E8%AF%81%E6%98%8E%E7%AE%80%E6%98%8E%E4%BB%8B%E7%BB%8D/>
+  - 视频介绍 / Video: <https://www.bilibili.com/video/BV18dth6VEf9>
 - 本仓库代码与数据以 MIT 许可发布，见 `LICENSE`。
 
 **English**
 
 - Theorem and original data: "硅基飙尘葆光", 2025-11-30 (the original manuscript
   and proof are not included in this repository).
+  - Article: <https://apc-scienceunion.github.io/2026/07/18/%E4%B8%BA%E4%BD%95%E6%89%80%E6%9C%898%E4%BD%8D%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%9A%84%E6%95%B0%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%8F%98%E4%B8%BA%E7%AD%89%E5%BC%8F%EF%BC%9F%E2%80%94%E2%80%94%E7%A1%85%E5%9F%BA-%E6%B2%89%E9%BB%98%E6%95%B4%E6%95%B0%E5%B9%B3%E8%A1%A1%E5%8C%96%E5%AE%9A%E7%90%86%E5%8F%8A%E5%85%B6%E8%AF%81%E6%98%8E%E7%AE%80%E6%98%8E%E4%BB%8B%E7%BB%8D/>
+  - Video: <https://www.bilibili.com/video/BV18dth6VEf9>
 - Code and data are released under the MIT license, see `LICENSE`.

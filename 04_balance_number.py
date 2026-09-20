@@ -30,6 +30,17 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sst_core as core  # noqa: E402
 
+# 最大强不可平衡数：任何大于它的整数都必定可平衡化
+# the largest strongly non-balanceable string: every larger integer is balanceable
+BALANCE_BOUND = "9989858"
+
+
+def is_above_bound(number: str) -> bool:
+    """判断数字串是否大于平衡化下界 / whether the number exceeds the sharp bound."""
+    if len(number) != len(BALANCE_BOUND):
+        return len(number) > len(BALANCE_BOUND)
+    return number > BALANCE_BOUND
+
 
 def parse_number(text: str) -> str:
     """校验并返回数字串 / Validate and return the digit string."""
@@ -74,9 +85,9 @@ def balance_one(number: str, args: argparse.Namespace) -> int:
         if not table_hit:
             print(f"表中无记录 / not in table : {number}")
 
-    if len(number) >= 8:
-        print("定理提示 / theorem : 8 位及以上数字串必定可平衡化 / "
-              "every 8+ digit string is balanceable")
+    if is_above_bound(number):
+        print("定理提示 / theorem : 该数大于 9989858，必定可平衡化 / "
+              "greater than 9989858, hence always balanceable")
 
     witness = core.find_balance(number,
                                 max_segments=args.max_segments,
@@ -92,7 +103,8 @@ def balance_one(number: str, args: argparse.Namespace) -> int:
                   " / not balanceable under the default rule")
         else:
             print("提示 / hint : 可增大 --max-segments 或 --max-segment-length；"
-                  "8 位及以上必定存在解 / raise the limits; 8+ digits always have one")
+                  "大于 9989858 的数必定存在解 / numbers greater than 9989858 "
+                  "always have one")
         return 1
 
     if args.json:
