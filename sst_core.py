@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """SS 定理核心库 / Core library for the SS Theorem.
 
-硅基-沉默整数平衡化定理 (Silicium-Silence's Balance Integer Theorem)
+硅基-沉默整数平衡化定理 (Silicon-Silence’s Balance Integer Theorem)
 -------------------------------------------------------------------
 本模块实现数字串的插符值集计算与可归零 / 可平衡化判定，是全部脚本的公共核心。
 This module implements value-set computation for digit strings together with the

@@ -1,6 +1,6 @@
 # SS 定理 / The SS Theorem
 
-**硅基-沉默整数平衡化定理 / Silicium-Silence's Balance Integer Theorem**
+**硅基-沉默整数平衡化定理 / Silicon-Silence’s Balance Integer Theorem**
 
 > **主定理 / Main theorem**
 >
