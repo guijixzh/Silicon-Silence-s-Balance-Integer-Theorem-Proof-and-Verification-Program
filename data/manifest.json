@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "theorem": "Silicium-Silence's Balance Integer Theorem (硅基-沉默整数平衡化定理)",
+  "generated_utc": "2026-09-20T14:15:09Z",
+  "python": "3.14.4",
+  "rules": {
+    "symbols": [
+      "+",
+      "-",
+      "*",
+      "/",
+      "(",
+      ")",
+      "_"
+    ],
+    "zeroable": "exists a cut with a common value 0 (a - b = 0, a + b = 0, or a zero factor)",
+    "non_balanceable": "no two-segment cut with a common value (no single-'=' solution)",
+    "strong_non_balanceable": "no multi-segment cut with a common value (no solution at all)",
+    "weak_non_balanceable": "multi-segment solution exists (multiple '=')",
+    "leading_unary_minus": {
+      "default": "segment (first number token of every segment may be negative)",
+      "strict_mode_available": true
+    }
+  },
+  "sieve": {
+    "digit_alphabet": "123456789",
+    "max_length": 7,
+    "candidate_forms": [
+      "s1+c+s2",
+      "s1+c",
+      "c+s2"
+    ],
+    "note": "'0' is trivially zeroable and is included in prime_zeroable"
+  },
+  "counts": {
+    "prime_zeroable": 6534,
+    "non_zeroable": 2873,
+    "non_balanceable": 19515,
+    "strong_non_balanceable": 18198,
+    "weak_non_balanceable": 1317,
+    "classification": 19515
+  },
+  "maxima": {
+    "prime_zeroable": "9896989",
+    "non_zeroable": "8985898",
+    "non_balanceable": "9989858",
+    "strong_non_balanceable": "9989858",
+    "weak_non_balanceable": "999894"
+  },
+  "sha256": {
+    "prime_zeroable.json": "6cc2943d1e31ef83ee5e8e7307342de3c19db1d5ab01ff9571eb9c23d88bdc6b",
+    "non_zeroable.json": "5551655f47430f3ccb2506ee88e7a4bbf6d312c412cb9168b88dc2a57e9713ad",
+    "non_balanceable.json": "23143f822bf665207988450cdc5d81e333cac660e31d0c80b92b100e2fc0af1a",
+    "strong_non_balanceable.json": "b3a35a350a316789293888fa2e882412b58458210afbf04a8ffe897171ad7f1e",
+    "weak_non_balanceable.json": "7cade46dbe5c25962ab3e92e6d15c010150e70cb0083eae1aadf8340247ec34a",
+    "classification.json": "de8bd856b34e3273042146726d61c9f566faf50aba649f5fe6204539522786ed"
+  }
+}

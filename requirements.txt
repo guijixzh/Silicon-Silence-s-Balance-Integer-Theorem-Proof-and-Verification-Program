@@ -1,0 +1,7 @@
+# 本仓库只依赖 Python 标准库，无需安装任何第三方包。
+# This repository depends only on the Python standard library; no third-party
+# packages are required.
+#
+# 运行环境 / Runtime: Python >= 3.10
+# 运行测试 / Run tests:
+#     python -m unittest discover -s tests -v

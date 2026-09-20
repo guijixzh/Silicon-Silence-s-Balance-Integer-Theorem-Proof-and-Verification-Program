@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Editors
+.vscode/
+.idea/
+
+# 运行中间产物 / runtime artifacts
+checkpoint*.json
+*.log
+*.tmp
